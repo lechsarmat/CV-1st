@@ -9,3 +9,5 @@ P_t, p_t = dr.LearningAlg( train_df, iter=50, eps=7e-2, eta=1e-1 )
 train_res = dr.CheckAlg(train_df, P_t, p_t)
 test_res = dr.CheckAlg(test_df, P_t, p_t)
 print('Train res: '+str(train_res),'Test res: '+str(test_res), sep = '\n')
+
+dr.ShowPlot(P_t)

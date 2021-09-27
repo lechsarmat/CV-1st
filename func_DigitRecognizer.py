@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 
 def LearningAlg(df, iter=10, eps=5e-2, eta=1e-1):
@@ -117,6 +118,37 @@ def CheckAlg(df, P, p_k):
     Guess = np.array( [0 if Pr[0][i] > Pr[1][i] else 1 for i in range( len( df ) )] )
     Q = np.sum( np.array( [Guess == df.label] )[0] ) / len( df )
     return max( Q, 1 - Q )
+
+
+def ShowPlot(P_k):
+    """Displays a graphical representation of probability matrices.
+       >>> ShowPlot(0)
+       Traceback (most recent call last):
+        ...
+       TypeError: P_k must be numpy array
+       >>> ShowPlot(np.array(['a',0]))
+       Traceback (most recent call last):
+        ...
+       TypeError: wrong type of elements
+       >>> ShowPlot(np.array([0.]))
+       Traceback (most recent call last):
+        ...
+       ValueError: P_k must have at least two sub-matrices
+    """
+    if type(P_k) != np.ndarray:
+        raise TypeError( "P_k must be numpy array" )
+    if P_k.dtype != 'float64':
+        raise TypeError( "wrong type of elements" )
+    if P_k.shape[0] < 2:
+        raise ValueError( "P_k must have at least two sub-matrices" )
+    fig = plt.figure( figsize=(16, 8) )
+    ax1 = fig.add_subplot( 121 )
+    ax1.imshow( P_k[0], cmap=plt.get_cmap( 'gray' ) )
+    ax1.set_title( 'Class 0' )
+    ax2 = fig.add_subplot( 122 )
+    ax2.imshow( P_k[1], cmap=plt.get_cmap( 'gray' ) )
+    ax2.set_title( 'Class 1' )
+    plt.show()
 
 
 if __name__ == "__main__":
